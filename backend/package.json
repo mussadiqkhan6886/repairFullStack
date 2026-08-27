@@ -8,10 +8,10 @@
     "build": "tsc",
     "start": "node dist/server.js"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["fullstack", "repair", "backend"],
+  "author": "mussadiq khan",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.10.1",
