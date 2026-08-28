@@ -1,11 +1,176 @@
-import React from 'react'
+import Link from "next/link";
+import React from "react";
 
-const page = () => {
+const Page = () => {
+  const notes = [
+    {
+      id: 1,
+      title: "Fix authentication bug",
+      description:
+        "Resolved JWT refresh token issue and improved login flow.",
+      author: "Dave",
+      priority: "High",
+      status: "Completed",
+      date: "Aug 28, 2026",
+    },
+    {
+      id: 2,
+      title: "Add user permissions",
+      description:
+        "Implement role based access control for dashboard users.",
+      author: "John",
+      priority: "Medium",
+      status: "In Progress",
+      date: "Aug 27, 2026",
+    },
+    {
+      id: 3,
+      title: "Update dashboard UI",
+      description:
+        "Improve admin dashboard layout and responsiveness.",
+      author: "Sarah",
+      priority: "Low",
+      status: "Pending",
+      date: "Aug 25, 2026",
+    },
+  ];
+
   return (
-    <main>
-      <h1>Notes Page</h1>
-    </main>
-  )
-}
+    <main className="min-h-screen bg-gray-100 p-6">
+      <div className="mx-auto max-w-6xl">
 
-export default page
+        {/* Header */}
+        <div className="mb-8 flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900">
+              Technotes
+            </h1>
+
+            <p className="mt-2 text-gray-500">
+              View and manage all technical notes
+            </p>
+          </div>
+
+          <button className="rounded-lg bg-black px-5 py-3 font-medium text-white hover:bg-gray-800">
+            + Add Note
+          </button>
+        </div>
+
+
+        {/* Search and Filter */}
+        <div className="mb-6 flex flex-col gap-4 sm:flex-row">
+
+          <input
+            type="text"
+            placeholder="Search notes..."
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-black"
+          />
+
+
+          <select
+            className="rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none"
+          >
+            <option>
+              All Status
+            </option>
+
+            <option>
+              Completed
+            </option>
+
+            <option>
+              In Progress
+            </option>
+
+            <option>
+              Pending
+            </option>
+          </select>
+
+        </div>
+
+
+        {/* Notes Grid */}
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+          {notes.map((note) => (
+            <div
+              key={note.id}
+              className="rounded-2xl bg-white p-6 shadow-lg transition hover:-translate-y-1"
+            >
+
+              <div className="mb-4 flex items-start justify-between">
+
+                <h2 className="text-xl font-semibold text-gray-900">
+                  {note.title}
+                </h2>
+
+                <span
+                  className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    note.priority === "High"
+                      ? "bg-red-100 text-red-700"
+                      : note.priority === "Medium"
+                      ? "bg-yellow-100 text-yellow-700"
+                      : "bg-green-100 text-green-700"
+                  }`}
+                >
+                  {note.priority}
+                </span>
+
+              </div>
+
+
+              <p className="mb-5 text-sm text-gray-600">
+                {note.description}
+              </p>
+
+
+              <div className="space-y-2 border-t pt-4 text-sm">
+
+                <p>
+                  <span className="font-medium">
+                    Author:
+                  </span>{" "}
+                  {note.author}
+                </p>
+
+
+                <p>
+                  <span className="font-medium">
+                    Date:
+                  </span>{" "}
+                  {note.date}
+                </p>
+
+
+                <p>
+                  <span className="font-medium">
+                    Status:
+                  </span>{" "}
+                  <span className="text-blue-600">
+                    {note.status}
+                  </span>
+                </p>
+
+              </div>
+
+
+              <div className="mt-5 flex gap-3">
+
+                <Link href={`notes/${note.id}`} className="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800">
+                  Edit
+                </Link>
+
+              </div>
+
+            </div>
+          ))}
+
+        </div>
+
+      </div>
+    </main>
+  );
+};
+
+export default Page;
