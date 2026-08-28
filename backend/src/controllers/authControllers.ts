@@ -1,7 +1,11 @@
 import { Request, Response } from "express"
 import User from "../models/UserModel"
 import bcrypt from "bcryptjs"
-import jwt from "jsonwebtoken"
+import jwt, { type JwtPayload } from "jsonwebtoken"
+
+export interface decodeType extends JwtPayload  {
+    username: string;
+}
 
 export const login = async (req: Request, res: Response) : Promise<void> => {
     const {username, password} = req.body
@@ -29,7 +33,7 @@ export const login = async (req: Request, res: Response) : Promise<void> => {
         {
             UserInfo: {
                 username: user.username,
-                roles: user.role
+                role: user.role
             }
         }, 
         process.env.ACCESS_TOKEN as string,
@@ -56,8 +60,56 @@ export const login = async (req: Request, res: Response) : Promise<void> => {
 }
 
 export const refresh = async (req: Request, res: Response) => {
+    const cookie = req.cookies
+    if(!cookie?.refreshToken){
+        res.status(401).json({message: "No refresh token"})
+        return
+    }
+    const token = cookie.refreshToken
 
+    jwt.verify(
+        token,
+        process.env.REFRESH_TOKEN as string,
+        async ( 
+            err: jwt.VerifyErrors | null,
+            decoded: string | JwtPayload | undefined
+        ) => {
+
+            if (err || !decoded || typeof decoded === "string") {
+                return res.status(403).json({
+                    message: "Forbidden",
+                });
+            }
+
+            const user = await User.findOne({username: decoded.username}).lean().exec()
+
+            if(!user){
+                res.status(401).json({message: "No User Found"})
+                return
+            }
+
+            const accessToken = jwt.sign({
+                UserInfo:{
+                    username: user.username,
+                    role:user.role
+                }
+                },
+                process.env.ACCESS_TOKEN as string,
+                {expiresIn: '15m'}
+            )
+
+            res.json({accessToken})
+        }
+    )
 }
 export const logout = async (req: Request, res: Response) => {
+    const cookie = req.cookies
+    if (!cookie?.refreshToken) return res.sendStatus(204) 
+    res.clearCookie("refreshToken", {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production"
+    })
 
+    res.json({message: "Logged out successfully"})
 }
