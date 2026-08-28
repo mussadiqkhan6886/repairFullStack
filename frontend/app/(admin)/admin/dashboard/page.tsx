@@ -19,28 +19,28 @@ const Page = () => {
 
             <div className="grid gap-4 sm:grid-cols-2">
               <Link
-                href="/dashboard/notes"
+                href="dashboard/notes"
                 className="rounded-xl border p-4 transition hover:bg-gray-100 hover:shadow"
               >
                 📄 View Technotes
               </Link>
 
               <Link
-                href="/dashboard/add-note"
+                href="dashboard/add-note"
                 className="rounded-xl border p-4 transition hover:bg-gray-100 hover:shadow"
               >
                 ➕ Add New Technote
               </Link>
 
               <Link
-                href="/dashboard/users"
+                href="dashboard/users"
                 className="rounded-xl border p-4 transition hover:bg-gray-100 hover:shadow"
               >
                 👤 View User Settings
               </Link>
 
               <Link
-                href="/dashboard/add-user"
+                href="dashboard/add-user"
                 className="rounded-xl border p-4 transition hover:bg-gray-100 hover:shadow"
               >
                 ➕ Add New User
