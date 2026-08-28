@@ -7,6 +7,7 @@ import connectDB from "./config/dbConnection"
 import mongoose from "mongoose"
 import { errorHandler } from "./middleware/errorHandler"
 import authRouter from "./routes/authRoutes"
+import userRouter from "./routes/userRoutes"
 
 dotenv.config()
 const app : Express = express()
@@ -18,6 +19,7 @@ app.use(express.json())
 connectDB()
 
 app.use("/api/auth",authRouter)
+app.use("/api/users", userRouter)
 
 app.use(errorHandler)
 mongoose.connection.once("open", () => {
