@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser"
 import { corsOptions } from "./config/corsOptions"
 import connectDB from "./config/dbConnection"
 import mongoose from "mongoose"
+import { errorHandler } from "./middleware/errorHandler"
 
 dotenv.config()
 const app : Express = express()
@@ -15,7 +16,7 @@ app.use(cookieParser())
 app.use(express.json())
 connectDB()
 
-
+app.use(errorHandler)
 mongoose.connection.once("open", () => {
     console.log("MongoDB connected");
     app.listen(PORT, () : void => console.log(`Server running on port ${PORT}`))
