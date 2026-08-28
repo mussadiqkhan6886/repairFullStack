@@ -6,6 +6,7 @@ import { corsOptions } from "./config/corsOptions"
 import connectDB from "./config/dbConnection"
 import mongoose from "mongoose"
 import { errorHandler } from "./middleware/errorHandler"
+import authRouter from "./routes/authRoutes"
 
 dotenv.config()
 const app : Express = express()
@@ -15,6 +16,8 @@ app.use(cors(corsOptions))
 app.use(cookieParser())
 app.use(express.json())
 connectDB()
+
+app.use("/api/auth",authRouter)
 
 app.use(errorHandler)
 mongoose.connection.once("open", () => {
