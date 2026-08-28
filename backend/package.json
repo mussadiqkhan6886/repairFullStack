@@ -2,16 +2,19 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "dev": "nodemon",
     "build": "tsc",
     "start": "node dist/server.js"
   },
-  "keywords": ["fullstack", "repair", "backend"],
+  "keywords": [
+    "fullstack",
+    "repair",
+    "backend"
+  ],
   "author": "mussadiq khan",
   "license": "ISC",
-  "type": "module",
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cloudinary": "^2.10.1",
@@ -29,8 +32,9 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
-    "@types/node": "^26.4.0",
-    "ts-node-dev": "^2.0.0",
-    "typescript": "^7.0.2"
+    "@types/node": "^22.20.1",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.7.3"
   }
 }
