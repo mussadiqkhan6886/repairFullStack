@@ -12,9 +12,9 @@ const Page = async ({
       <div className="mx-auto max-w-3xl">
 
         <div className="mb-8">
-          <h2 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-gray-900">
             Edit User
-          </h2>
+          </h1>
 
           <p className="mt-2 text-gray-500">
             Update user information and permissions

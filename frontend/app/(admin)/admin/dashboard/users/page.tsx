@@ -32,9 +32,9 @@ const Page = () => {
 
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h2 className="text-3xl font-bold text-gray-900">
+            <h1 className="text-3xl font-bold text-gray-900">
               Users
-            </h2>
+            </h1>
             <p className="mt-1 text-gray-500">
               Manage system users and permissions
             </p>

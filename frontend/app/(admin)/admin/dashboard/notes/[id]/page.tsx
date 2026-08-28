@@ -11,7 +11,6 @@ const Page = async ({
     <main className="min-h-screen bg-gray-100 p-6">
       <div className="mx-auto max-w-3xl">
 
-        {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">
             Edit Note
@@ -23,12 +22,10 @@ const Page = async ({
         </div>
 
 
-        {/* Form */}
         <div className="rounded-2xl bg-white p-8 shadow-lg">
 
           <form className="space-y-6">
 
-            {/* Note ID */}
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700">
                 Note ID
@@ -42,7 +39,6 @@ const Page = async ({
             </div>
 
 
-            {/* Title */}
             <div>
               <label
                 htmlFor="title"
@@ -61,7 +57,6 @@ const Page = async ({
             </div>
 
 
-            {/* Description */}
             <div>
               <label
                 htmlFor="description"
@@ -80,7 +75,6 @@ const Page = async ({
             </div>
 
 
-            {/* Priority */}
             <div>
               <label
                 htmlFor="priority"
@@ -109,7 +103,6 @@ const Page = async ({
             </div>
 
 
-            {/* Status */}
             <div>
               <label
                 htmlFor="status"
@@ -138,7 +131,6 @@ const Page = async ({
             </div>
 
 
-            {/* Buttons */}
             <div className="flex justify-end gap-4 pt-4">
 
               <button

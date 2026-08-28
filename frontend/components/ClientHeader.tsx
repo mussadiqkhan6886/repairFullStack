@@ -6,7 +6,7 @@ const ClientHeader = () => {
   return (
     <header className="bg-black text-white flex justify-between items-center p-4 ">
       <div>
-        <h1 className="uppercase font-semibold text-lg">Repair System</h1>
+        <Link href="/" className="uppercase font-semibold text-lg">Repair System</Link>
       </div>
       <div>
         <Link href="/login">

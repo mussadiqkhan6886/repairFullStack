@@ -39,7 +39,6 @@ const Page = () => {
     <main className="min-h-screen bg-gray-100 p-6">
       <div className="mx-auto max-w-6xl">
 
-        {/* Header */}
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-3xl font-bold text-gray-900">
@@ -57,7 +56,6 @@ const Page = () => {
         </div>
 
 
-        {/* Search and Filter */}
         <div className="mb-6 flex flex-col gap-4 sm:flex-row">
 
           <input
@@ -90,7 +88,6 @@ const Page = () => {
         </div>
 
 
-        {/* Notes Grid */}
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
           {notes.map((note) => (

@@ -6,7 +6,7 @@ const AdminHeader = () => {
   return (
     <header className="bg-black text-white flex justify-between items-center p-4 ">
       <div>
-        <h1 className="uppercase font-semibold text-lg">Admin Dashboard</h1>
+        <Link href="/admin/dashboard" className="uppercase font-semibold text-lg">Admin Dashboard</Link>
       </div>
       <div>
         <Link href="/logout">
