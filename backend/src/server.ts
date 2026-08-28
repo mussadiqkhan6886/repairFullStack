@@ -1,16 +1,25 @@
-import express from "express"
+import express, {type Express} from "express"
 import dotenv from "dotenv"
 import cors from "cors"
 import cookieParser from "cookie-parser"
 import { corsOptions } from "./config/corsOptions"
+import connectDB from "./config/dbConnection"
+import mongoose from "mongoose"
 
 dotenv.config()
-const app = express()
-const PORT = process.env.PORT || 4000
+const app : Express = express()
+const PORT : number = Number(process.env.PORT) || 4000
 
 app.use(cors(corsOptions))
 app.use(cookieParser())
 app.use(express.json())
+connectDB()
 
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+mongoose.connection.once("open", () => {
+    console.log("MongoDB connected");
+    app.listen(PORT, () : void => console.log(`Server running on port ${PORT}`))
+})
+mongoose.connection.on("error", (err) => {
+  console.error("MongoDB connection error:", err);
+});
