@@ -3,10 +3,6 @@ import User from "../models/UserModel"
 import bcrypt from "bcryptjs"
 import jwt, { type JwtPayload } from "jsonwebtoken"
 
-export interface decodeType extends JwtPayload  {
-    username: string;
-}
-
 export const login = async (req: Request, res: Response) : Promise<void> => {
     const {username, password} = req.body
 
