@@ -3,14 +3,30 @@ import Note from "../models/NoteModel";
 import { noteSchema, noteUpdateSchema } from "../schemas/noteSchema";
 import { ROLES } from "../lib/constants";
 
-export const getAllNotes = async (req: Request, res: Response) : Promise<void> => {
-    let notes;
+interface filterQuery  {
+    priority?: string
+    status?: string
+}
+
+export const getAllNotes = async (req: Request<{}, {}, {}, filterQuery>, res: Response) : Promise<void> => {
+    let filter : Record<string, unknown> = {};
+    const {priority, status} = req.query
+
+    if(priority){
+        filter.priority = priority
+    }
+
+    if(status){
+        filter.status = status
+    }
 
     if(req.user?.role === ROLES.EMPLOYEE){
-        notes = await Note.find({noteFor: req.user?.id}).lean().exec()
-    }else{
-        notes = await Note.find().lean().exec()
+        filter.noteFor = req.user.id;
     }
+
+    const notes = await Note.find(filter)
+        .lean()
+        .exec();
 
     res.status(200).json({success:true, notes})
 }

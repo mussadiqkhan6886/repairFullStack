@@ -4,9 +4,28 @@ import { updateUserSchema, userSchema } from "../schemas/userSchema";
 import bcrypt from "bcryptjs"
 import Note from "../models/NoteModel";
 
-export const getAllUsers = async (req: Request, res: Response) : Promise<void> => {
+interface filterQuery {
+    status?: "Active" | "InActive"
+    search?: string
+}
 
-    const users = await User.find({}).select("-password").lean().exec()
+export const getAllUsers = async (req: Request<{}, {}, {}, filterQuery>, res: Response) : Promise<void> => {
+
+    const {status, search} = req.query
+    let filter: Record<string, unknown> = {}
+
+    if(status){
+        filter.status = status 
+    }
+
+    if(search){
+        filter.username = {
+            $regex: search,
+            $options: 'i'
+        }
+    }
+
+    const users = await User.find(filter).select("-password").lean().exec()
 
     res.status(200).json({
         success: true,
