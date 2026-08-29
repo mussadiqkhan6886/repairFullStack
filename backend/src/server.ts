@@ -8,6 +8,7 @@ import mongoose from "mongoose"
 import { errorHandler } from "./middleware/errorHandler"
 import authRouter from "./routes/authRoutes"
 import userRouter from "./routes/userRoutes"
+import noteRoute from "./routes/noteRoutes"
 
 dotenv.config()
 const app : Express = express()
@@ -20,8 +21,10 @@ connectDB()
 
 app.use("/api/auth",authRouter)
 app.use("/api/users", userRouter)
+app.use("/api/notes", noteRoute)
 
 app.use(errorHandler)
+
 mongoose.connection.once("open", () => {
     console.log("MongoDB connected");
     app.listen(PORT, () : void => console.log(`Server running on port ${PORT}`))
