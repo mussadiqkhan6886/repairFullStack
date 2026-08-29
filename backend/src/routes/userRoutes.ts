@@ -4,8 +4,10 @@ import { verifyJWT } from "../middleware/verifyJWT"
 
 const router = Router()
 
+router.use(verifyJWT)
+
 router.route("/")
-    .get(verifyJWT, getAllUsers)
+    .get(getAllUsers)
 
 
 export default router
