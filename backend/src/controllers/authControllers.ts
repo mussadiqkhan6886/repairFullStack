@@ -28,6 +28,7 @@ export const login = async (req: Request, res: Response) : Promise<void> => {
     const accessToken = jwt.sign(
         {
             UserInfo: {
+                id: user._id,
                 username: user.username,
                 role: user.role
             }
@@ -86,6 +87,7 @@ export const refresh = async (req: Request, res: Response) => {
 
             const accessToken = jwt.sign({
                 UserInfo:{
+                    id: user._id,
                     username: user.username,
                     role:user.role
                 }

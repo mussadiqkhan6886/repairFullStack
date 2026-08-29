@@ -22,6 +22,7 @@ export const verifyJWT = (req: Request, res: Response, next: NextFunction): void
             }
 
             req.user = {
+                id: decoded.UserInfo.id,
                 username: decoded.UserInfo.username,
                 role: decoded.UserInfo.role,
             };
