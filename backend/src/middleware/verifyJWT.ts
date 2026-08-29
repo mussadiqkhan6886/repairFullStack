@@ -1,33 +1,32 @@
+/// <reference path="../types/express.d.ts" />
 import { NextFunction, Request, Response } from "express";
-import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken"
+import jwt, { JwtPayload, VerifyErrors } from "jsonwebtoken";
 
-interface RequestType extends Request {
-    username: string
-    role: string
-}
+export const verifyJWT = (req: Request, res: Response, next: NextFunction): void => {
+    const authHeader = req.headers.authorization;
 
-export const verifyJWT = (req: RequestType, res: Response, next: NextFunction) : void => {
-    const authHeader = (req.headers.authorization && !Array.isArray(req.headers.authorization)) || (req.headers.Authorization && !Array.isArray(req.headers.Authorization))
-
-     if (typeof authHeader === "boolean" || !authHeader?.startsWith('Bearer ')) {
-        res.status(401).json({ message: 'Unauthorized' })
-        return
+    if (!authHeader || Array.isArray(authHeader) || !authHeader.startsWith('Bearer ')) {
+        res.status(401).json({ message: 'Unauthorized' });
+        return;
     }
 
-    const token = authHeader.split(' ')[1]
+    const token = authHeader.split(' ')[1];
 
     jwt.verify(
-        token as string, 
-        process.env.ACCESS_TOKEN as string, 
-        (err : VerifyErrors | null, decoded: string | JwtPayload | undefined) => {
+        token,
+        process.env.ACCESS_TOKEN as string,
+        (err: VerifyErrors | null, decoded: string | JwtPayload | undefined) => {
+            if (err || !decoded || typeof decoded === "string") {
+                res.status(403).json({ message: "Forbidden" });
+                return;
+            }
 
-        if (err || !decoded || typeof decoded === "string") {
-                return res.status(403).json({
-                    message: "Forbidden",
-                });
+            req.user = {
+                username: decoded.UserInfo.username,
+                role: decoded.UserInfo.role,
+            };
+
+            next();
         }
-        req.username = decoded.UserInfo.username
-        req.role = decoded.UserInfo.role
-        next()
-    })
-}
+    );
+};

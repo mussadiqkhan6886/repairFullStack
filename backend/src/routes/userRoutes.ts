@@ -1,10 +1,11 @@
 import {Router} from "express"
 import { getAllUsers } from "../controllers/userControllers"
+import { verifyJWT } from "../middleware/verifyJWT"
 
 const router = Router()
 
 router.route("/")
-    .get(getAllUsers)
+    .get(verifyJWT, getAllUsers)
 
 
 export default router
