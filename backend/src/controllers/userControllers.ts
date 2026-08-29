@@ -33,19 +33,34 @@ export const createNewUser = async (req: Request, res: Response) : Promise<void>
 
     const hashedPassword = await bcrypt.hash(data.password, 10)
 
-    const newUser = await User.create({
+    try{
+        const newUser = await User.create({
         username: data.username,
         password: hashedPassword,
         email: data.email,
         role: data.role
-    })
+        })
 
-    res.status(201).json({message: "New User created",  user:{
-        id:newUser._id,
-        username:newUser.username,
-        email:newUser.email,
-        role:newUser.role
-    }})
+        res.status(201).json({message: "New User created",  user:{
+            id:newUser._id,
+            username:newUser.username,
+            email:newUser.email,
+            role:newUser.role
+        }})
+    }catch(error:any){
+
+        if(error.code === 11000){
+            res.status(409).json({
+                message:"Username or email already exists"
+            });
+            return;
+        }
+
+        res.status(500).json({
+            message:"Server error"
+        });
+     }
+    
 }
 
 export const updateUser = async (req: Request, res: Response) : Promise<void> => {
@@ -75,7 +90,8 @@ export const updateUser = async (req: Request, res: Response) : Promise<void> =>
         data.password = await bcrypt.hash(data.password,10);
     }
 
-    const updatedUser = await User.findByIdAndUpdate(id, data, {new: true})
+    try{
+        const updatedUser = await User.findByIdAndUpdate(id, data, {new: true})
 
     if(!updatedUser){
         res.status(404).json({message: "No user found with this id"})
@@ -89,6 +105,18 @@ export const updateUser = async (req: Request, res: Response) : Promise<void> =>
         role:updatedUser.role,
         status: updatedUser.status
     }})
+    }catch(err: any){
+        if(err.code === 11000){
+            res.status(409).json({
+                message:"Username or email already exists"
+            });
+            return;
+        }
+
+        res.status(500).json({
+            message:"Server error"
+        });
+    }
 }
 
 export const deleteUser = async (req: Request, res: Response) : Promise<void> => {
