@@ -1,5 +1,5 @@
 import {Router} from "express"
-import { createNewUser, deleteUser, getAllUsers, getSingleUser, updateUser } from "../controllers/userControllers"
+import { createNewUser, deleteUser, getAllUsers, getSingleUser, updateUser, getCurrentUser } from "../controllers/userControllers"
 import { verifyJWT } from "../middleware/verifyJWT"
 import { verifyRole } from "../middleware/verifyRole"
 import { ROLES } from "../lib/constants"
@@ -10,6 +10,7 @@ const router = Router()
 router.use(verifyJWT)
 router.use(apiLimiter)
 
+router.get("/me", verifyRole(ROLES.EMPLOYEE, ROLES.MANAGER, ROLES.ADMIN) , getCurrentUser)
 router.get("/", verifyRole(ROLES.MANAGER, ROLES.ADMIN) , getAllUsers)
 router.get("/:id", verifyRole(ROLES.MANAGER, ROLES.ADMIN) , getSingleUser)
 router.post("/", verifyRole(ROLES.MANAGER, ROLES.ADMIN), createNewUser)

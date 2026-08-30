@@ -172,8 +172,31 @@ export const getSingleUser = async (req: Request, res: Response) : Promise<void>
 
     const user = await User.findById(id).lean().exec()
 
+    if(!user){
+        res.status(404).json({success:false, message: "No user found with this id"})
+        return
+    }
+
     res.status(200).json({
         success: true,
         user,
     });
+}
+
+export const getCurrentUser = async (req: Request, res: Response) : Promise<void> => {
+    const id = req.user?.id
+
+    if(!id){
+        res.status(400).json({success:false, message:"No Id founded"})
+        return
+    }
+
+    const user = await User.findById(id).lean().exec()
+
+    if(!user){
+        res.status(404).json({success:false, message: "No user found with this id"})
+        return
+    }
+
+    res.status(200).json({success: true, user})
 }
