@@ -2,38 +2,7 @@ import Link from "next/link";
 import React from "react";
 
 const Page = () => {
-  const notes = [
-    {
-      id: 1,
-      title: "Fix authentication bug",
-      description:
-        "Resolved JWT refresh token issue and improved login flow.",
-      author: "Dave",
-      priority: "High",
-      status: "Completed",
-      date: "Aug 28, 2026",
-    },
-    {
-      id: 2,
-      title: "Add user permissions",
-      description:
-        "Implement role based access control for dashboard users.",
-      author: "John",
-      priority: "Medium",
-      status: "In Progress",
-      date: "Aug 27, 2026",
-    },
-    {
-      id: 3,
-      title: "Update dashboard UI",
-      description:
-        "Improve admin dashboard layout and responsiveness.",
-      author: "Sarah",
-      priority: "Low",
-      status: "Pending",
-      date: "Aug 25, 2026",
-    },
-  ];
+  
 
   return (
     <main className="min-h-screen bg-gray-100 p-6">

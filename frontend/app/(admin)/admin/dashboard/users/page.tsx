@@ -4,29 +4,7 @@ import React from "react";
 
 const Page = async () => {
   const me = await requiredRole(["Manager", "Admin"])
-  const users = [
-    {
-      id: 1,
-      name: "Dave",
-      email: "dave@example.com",
-      role: "Manager",
-      status: "Active",
-    },
-    {
-      id: 2,
-      name: "John Smith",
-      email: "john@example.com",
-      role: "Employee",
-      status: "Active",
-    },
-    {
-      id: 3,
-      name: "Sarah Khan",
-      email: "sarah@example.com",
-      role: "Employee",
-      status: "Inactive",
-    },
-  ];
+  
 
   return (
     <main className="min-h-screen bg-gray-100 p-6">
