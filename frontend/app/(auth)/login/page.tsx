@@ -22,7 +22,7 @@ const Page = () => {
     mutationFn: login,
     onSuccess(data){
       console.log(data)
-      router.push("/admin")
+      router.push("/admin/dashboard")
     },
     onError(error) {
       console.error(error);

@@ -9,5 +9,5 @@ export const getMe = async () => {
     if(!res.ok){
         throw new Error(result.message)
     }
-    return result.user.username
+    return result.user
 }

@@ -6,7 +6,7 @@ const WelcomeAdminPage = async () => {
     const me = await getMe()
   return (
     <h1 className="uppercase font-semibold text-lg">
-      Welcome {me}
+      Welcome {me.username}
     </h1>
   )
 }

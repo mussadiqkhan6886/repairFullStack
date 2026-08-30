@@ -191,7 +191,7 @@ export const getCurrentUser = async (req: Request, res: Response) : Promise<void
         return
     }
 
-    const user = await User.findById(id).lean().exec()
+    const user = await User.findById(id).select("username role").lean().exec()
 
     if(!user){
         res.status(404).json({success:false, message: "No user found with this id"})
