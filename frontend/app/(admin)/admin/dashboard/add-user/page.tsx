@@ -1,6 +1,8 @@
+import { requiredRole } from "@/lib/authPage";
 import React from "react";
 
-const Page = () => {
+const Page = async () => {
+  const me = await requiredRole(["Manager", "Admin"])
   return (
     <main className="min-h-screen bg-gray-100 p-6">
       <div className="mx-auto max-w-3xl">

@@ -1,7 +1,9 @@
+import { requiredRole } from "@/lib/authPage";
 import Link from "next/link";
 import React from "react";
 
-const Page = () => {
+const Page = async () => {
+  const me = await requiredRole(["Manager", "Admin"])
   const users = [
     {
       id: 1,
