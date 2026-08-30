@@ -8,5 +8,6 @@ export const corsOptions : CorsOptions = {
             return
         }
         callback(new Error ("Origin error cors not allowed"))
-    }
+    },
+    credentials: true
 }

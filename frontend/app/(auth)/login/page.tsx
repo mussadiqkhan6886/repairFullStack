@@ -1,6 +1,46 @@
+'use client';
+
+import { login } from "@/server/auth";
+import { useMutation } from "@tanstack/react-query";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useState } from "react";
+
+interface dataType {
+  username: string
+  password: string
+}
 
 const Page = () => {
+
+  const [data, setData] = useState<dataType>({
+    username: "",
+    password: ""
+  })
+  const router = useRouter()
+  const loginMutation = useMutation({
+    mutationFn: login,
+    onSuccess(data){
+      console.log(data)
+      router.push("/admin")
+    },
+    onError(error) {
+      console.error(error);
+    },
+  }) 
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const {value, name} = e.target
+
+    setData(prev => ({...prev, [name] : value}))
+  }
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault()
+
+    loginMutation.mutate(data)
+  }
+
   return (
     <main className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-xl">
@@ -12,7 +52,7 @@ const Page = () => {
           Sign in to your account
         </p>
 
-        <form className="mt-8 space-y-5">
+        <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="username"
@@ -22,8 +62,11 @@ const Page = () => {
             </label>
 
             <input
+              value={data.username}
+              onChange={handleChange}
               id="username"
               type="text"
+              name="username"
               autoComplete="off"
               placeholder="Enter your username"
               className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
@@ -40,6 +83,9 @@ const Page = () => {
 
             <input
               id="password"
+              name="password"
+              value={data.password}
+              onChange={handleChange}
               type="password"
               placeholder="Enter your password"
               className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
@@ -48,12 +94,13 @@ const Page = () => {
 
           <button
             type="submit"
+            disabled={loginMutation.isPending}
             className="w-full rounded-lg bg-black py-3 font-semibold text-white transition hover:bg-gray-800 active:scale-[0.98]"
           >
-            Login
+            {loginMutation.isPending ? "Logging in..." : "Login"}
           </button>
         </form>
-
+        {loginMutation.isError && <p className="text-sx text-red-500 text-center my-1">{loginMutation.error.message}</p> }
         <div className="mt-6 text-center">
           <Link
             href="/"

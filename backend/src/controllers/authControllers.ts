@@ -39,11 +39,24 @@ export const login = async (req: Request, res: Response) : Promise<void> => {
 
     const refreshToken = jwt.sign(
         {
+            id: user._id,
             username: user.username
         },
         process.env.REFRESH_TOKEN as string,
         {expiresIn: '7d'}
     )
+
+    res.cookie(
+        "accessToken",
+        accessToken,
+        {
+            httpOnly:true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite:"strict",
+            maxAge:15 * 60 * 1000,
+            path:"/"
+        }
+    );
 
     res.cookie("refreshToken", refreshToken, {
         httpOnly: true,
@@ -53,7 +66,7 @@ export const login = async (req: Request, res: Response) : Promise<void> => {
         path: "/",
     })
 
-    res.json({message: "Login Successfully", accessToken})
+    res.json({message: "Login Successfully"})
 }
 
 export const refresh = async (req: Request, res: Response) => {
@@ -78,7 +91,7 @@ export const refresh = async (req: Request, res: Response) => {
                 });
             }
 
-            const user = await User.findOne({username: decoded.username}).lean().exec()
+            const user = await User.findById(decoded.id).lean().exec()
 
             if(!user){
                 res.status(401).json({message: "No User Found"})
@@ -96,7 +109,7 @@ export const refresh = async (req: Request, res: Response) => {
                 {expiresIn: '15m'}
             )
 
-            res.json({accessToken})
+            res.json({message: "Token refreshed"})
         }
     )
 }
@@ -106,7 +119,14 @@ export const logout = async (req: Request, res: Response) => {
     res.clearCookie("refreshToken", {
         httpOnly: true,
         sameSite: "strict",
-        secure: process.env.NODE_ENV === "production"
+        secure: process.env.NODE_ENV === "production",
+        path: "/"
+    })
+    res.clearCookie("accessToken", {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+        path: "/"
     })
 
     res.json({message: "Logged out successfully"})
