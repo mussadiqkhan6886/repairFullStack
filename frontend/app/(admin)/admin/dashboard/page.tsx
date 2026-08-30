@@ -1,13 +1,15 @@
+import { getMe } from "@/server/user";
 import Link from "next/link";
 
-const Page = () => {
+const Page = async () => {
+  const me = await getMe()
   return (
     <main className="min-h-screen bg-gray-100 p-6">
       <div className="mx-auto max-w-5xl">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900">Dashboard</h1>
           <p className="mt-2 text-gray-600">
-            Welcome back, <span className="font-semibold">Dave</span> 👋
+            Welcome back, <span className="font-semibold">{me.username}</span> 👋
           </p>
         </div>
 
@@ -25,7 +27,7 @@ const Page = () => {
                 📄 View Technotes
               </Link>
 
-              <Link
+              {me.role !== "Employee" && <> <Link
                 href="dashboard/add-note"
                 className="rounded-xl border p-4 transition hover:bg-gray-100 hover:shadow"
               >
@@ -38,13 +40,16 @@ const Page = () => {
               >
                 👤 View User Settings
               </Link>
-
+             
               <Link
                 href="dashboard/add-user"
                 className="rounded-xl border p-4 transition hover:bg-gray-100 hover:shadow"
               >
                 ➕ Add New User
               </Link>
+               </>
+              }
+
             </div>
           </section>
 
@@ -56,13 +61,13 @@ const Page = () => {
             <div className="space-y-4">
               <div>
                 <p className="text-sm text-gray-500">Current User</p>
-                <p className="font-semibold text-gray-900">Dave</p>
+                <p className="font-semibold text-gray-900">{me.username}</p>
               </div>
 
               <div>
                 <p className="text-sm text-gray-500">Status</p>
                 <span className="inline-block rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-700">
-                  Manager
+                  {me.role}
                 </span>
               </div>
             </div>
