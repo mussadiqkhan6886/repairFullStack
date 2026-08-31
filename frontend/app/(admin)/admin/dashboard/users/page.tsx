@@ -1,10 +1,12 @@
-import { requiredRole } from "@/lib/authPage";
+import { requiredRole } from "@/lib/helpers/authPage";
+import { getAllUsers } from "@/server/user";
 import Link from "next/link";
 import React from "react";
 
 const Page = async () => {
   const me = await requiredRole(["Manager", "Admin"])
   
+  const users : UserType[] = await getAllUsers()
 
   return (
     <main className="min-h-screen bg-gray-100 p-6">
@@ -67,12 +69,12 @@ const Page = async () => {
             <tbody>
               {users.map((user) => (
                 <tr
-                  key={user.id}
+                  key={user._id}
                   className="border-b last:border-none hover:bg-gray-50"
                 >
 
                   <td className="px-6 py-4 font-medium">
-                    {user.name}
+                    {user.username}
                   </td>
 
 

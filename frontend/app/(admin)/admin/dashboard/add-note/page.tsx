@@ -1,4 +1,4 @@
-import { requiredRole } from "@/lib/authPage";
+import { requiredRole } from "@/lib/helpers/authPage";
 import React from "react";
 
 const Page = async () => {
