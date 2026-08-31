@@ -1,3 +1,4 @@
+import DeleteUser from "@/components/DeleteUser";
 import { requiredRole } from "@/lib/helpers/authPage";
 import { getAllUsers } from "@/server/user";
 import Link from "next/link";
@@ -7,7 +8,6 @@ const Page = async () => {
   const me = await requiredRole(["Manager", "Admin"])
   
   const users : UserType[] = await getAllUsers()
-
   return (
     <main className="min-h-screen bg-gray-100 p-6">
       <div className="mx-auto max-w-6xl">
@@ -110,14 +110,12 @@ const Page = async () => {
 
 
                   <td className="px-6 py-4">
-                    <div className="flex gap-3">
-                      <Link href={`users/${user.id}`} className="text-sm font-medium text-blue-600 hover:underline">
+                    <div className="flex  gap-3">
+                      <Link href={`users/${user._id}`} className="text-sm font-medium text-blue-600 hover:underline">
                         Edit
                       </Link>
 
-                      <button className="text-sm font-medium text-red-600 hover:underline">
-                        Delete
-                      </button>
+                        {me.role ==="Admin" && <DeleteUser id={user._id} />}
                     </div>
                   </td>
 

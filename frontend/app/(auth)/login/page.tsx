@@ -86,6 +86,7 @@ const Page = () => {
               name="password"
               value={data.password}
               onChange={handleChange}
+              autoComplete="off"
               type="password"
               placeholder="Enter your password"
               className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"

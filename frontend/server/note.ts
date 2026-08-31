@@ -33,5 +33,5 @@ export const createNote = async (data: Required<NoteType>) : Promise<NoteType> =
 }
 
 export const deleteNote = async (id: string) : Promise<void> => {
-    await fetchHelper<undefined>(`notes/${id}`, {method: "DELETE", headers: {"Content-Type": "application/json"}})
+    await fetchHelper<undefined>(`notes/${id}`, {method: "DELETE"})
 }

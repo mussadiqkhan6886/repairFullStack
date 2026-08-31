@@ -6,8 +6,8 @@ export const getMe = async () : Promise<UserType> => {
 }
 
 export const getAllUsers = async () : Promise<UserType[]> => {
-    const result = await fetchHelper<{user: UserType[]}>("users")
-    return result.user
+    const result = await fetchHelper<{users: UserType[]}>("users")
+    return result.users
 }
 
 
@@ -38,5 +38,5 @@ export const createUser = async (data: Required<UserType>) : Promise<UserType> =
 }
 
 export const deleteUser = async (id: string) : Promise<void> => {
-    await fetchHelper<undefined>(`users/${id}`, {method: "DELETE", headers: {"Content-Type": "application/json"}})
+    await fetchHelper<undefined>(`users/${id}`, {method: "DELETE"})
 }

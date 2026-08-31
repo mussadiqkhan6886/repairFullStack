@@ -1,3 +1,4 @@
+import { getUser } from "@/server/user";
 import React from "react";
 
 const Page = async ({
@@ -6,6 +7,8 @@ const Page = async ({
   params: Promise<{ id: string }>;
 }) => {
   const { id } = await params;
+
+  const user = await getUser(id)
 
   return (
     <main className="min-h-screen bg-gray-100 p-6">

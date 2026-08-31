@@ -9,7 +9,8 @@ interface UserType {
     password?: string
     email: string
     status: "Active" | "InActive"
-    role: "Employee" | "Manager" | "Admin"
+    role: "Employee" | "Manager" | "Admin",
+    createdAt: string
 }
 
 interface updateUserData {
@@ -36,4 +37,5 @@ interface NoteType {
     description: string
     priority: "High" | "Medium" | "Low"
     status: "Completed" | "Working" | "Pending"
+    createdAt: string
 }

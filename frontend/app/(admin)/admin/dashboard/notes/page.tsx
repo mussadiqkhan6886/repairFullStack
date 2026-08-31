@@ -1,8 +1,11 @@
+import { formatDate } from "@/lib/helpers/formatDate";
+import { getAllNotes } from "@/server/note";
 import Link from "next/link";
 import React from "react";
 
-const Page = () => {
+const Page = async () => {
   
+  const notes : NoteType[] = await getAllNotes()
 
   return (
     <main className="min-h-screen bg-gray-100 p-6">
@@ -59,9 +62,9 @@ const Page = () => {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-          {notes.map((note) => (
+          {notes.map((note: NoteType) => (
             <div
-              key={note.id}
+              key={note._id}
               className="rounded-2xl bg-white p-6 shadow-lg transition hover:-translate-y-1"
             >
 
@@ -95,17 +98,9 @@ const Page = () => {
 
                 <p>
                   <span className="font-medium">
-                    Author:
-                  </span>{" "}
-                  {note.author}
-                </p>
-
-
-                <p>
-                  <span className="font-medium">
                     Date:
                   </span>{" "}
-                  {note.date}
+                  {formatDate(note.createdAt)}
                 </p>
 
 
@@ -123,7 +118,7 @@ const Page = () => {
 
               <div className="mt-5 flex gap-3">
 
-                <Link href={`notes/${note.id}`} className="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800">
+                <Link href={`notes/${note._id}`} className="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800">
                   Edit
                 </Link>
 
