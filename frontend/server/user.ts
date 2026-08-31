@@ -11,8 +11,8 @@ export const getAllUsers = async () : Promise<UserType[]> => {
 }
 
 
-export const getUser = async (id: string) : Promise<UserType> => {
-    const result = await fetchHelper<{user: UserType}>(`users/${id}`)
+export const getUser = async (id: string) : Promise<Required<UserType>> => {
+    const result = await fetchHelper<{user: Required<UserType>}>(`users/${id}`)
     return result.user
     
 }
