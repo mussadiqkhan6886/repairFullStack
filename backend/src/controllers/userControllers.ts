@@ -203,7 +203,11 @@ export const getCurrentUser = async (req: Request, res: Response) : Promise<void
 }
 
 export const getUsersIds = async (req: Request, res: Response) : Promise<void> => {
-    const users = await User.find().select("id username").lean().exec()
+    const users = await User.find({role: {$ne: "Admin"}}).select("id username").lean().exec()
     
+    if(!users){
+        res.status(404).json({success:false, message: "No users found"})
+        return
+    }
     res.status(200).json({success: true, usersId: users})
 }
