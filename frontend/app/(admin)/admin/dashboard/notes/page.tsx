@@ -1,15 +1,19 @@
 import DeleteNote from "@/components/DeleteNote";
+import NoteQuery from "@/components/NoteQuery";
 import { requiredRole } from "@/lib/helpers/authPage";
 import { formatDate } from "@/lib/helpers/formatDate";
 import { getAllNotes } from "@/server/note";
 import Link from "next/link";
 import React from "react";
 
-const Page = async () => {
+const Page = async ({searchParams}: {searchParams: Promise<{status?:string, priority?:string}>}) => {
   
-  const notes : NoteType[] = await getAllNotes()
+  const {status = "", priority=""} = await searchParams
+
+  const notes : NoteType[] = await getAllNotes(status, priority)
 
   const me =  await requiredRole(["Employee", "Admin", "Manager"])
+
   
   return (
     <main className="min-h-screen bg-gray-100 p-6">
@@ -32,41 +36,12 @@ const Page = async () => {
         </div>
 
 
-        <div className="mb-6 flex flex-col gap-4 sm:flex-row">
-
-          <input
-            type="text"
-            placeholder="Search notes..."
-            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-black"
-          />
-
-
-          <select
-            className="rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none"
-          >
-            <option>
-              All Status
-            </option>
-
-            <option>
-              Completed
-            </option>
-
-            <option>
-              In Progress
-            </option>
-
-            <option>
-              Pending
-            </option>
-          </select>
-
-        </div>
+        <NoteQuery />
 
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-          {notes.length < 1 ? <h2>No Notes</h2> : notes.map((note: NoteType) => (
+          {notes.length < 1 ? <h2 className="text-center font-semibold text-2xl">No Notes</h2> : notes.map((note: NoteType) => (
             <div
               key={note._id}
               className="rounded-2xl bg-white p-6 shadow-lg transition hover:-translate-y-1"
