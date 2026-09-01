@@ -30,7 +30,13 @@ const EditUser = ({ id, user }: Props) => {
     const router = useRouter()
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        const res = await updateUser(data)
+         const changedData = Object.fromEntries(
+            Object.entries(data).filter(([key, value]) => {
+                return value !== user[key as keyof UserType];
+            })
+        );
+
+        const res = await updateUser({id, ...changedData})
         router.push("/admin/dashboard/users")
     }
 
@@ -152,6 +158,7 @@ const EditUser = ({ id, user }: Props) => {
 
                     <button
                         type="button"
+                        onClick={() => router.back()}
                         className="rounded-lg border px-5 py-3 font-medium hover:bg-gray-100"
                     >
                         Cancel
