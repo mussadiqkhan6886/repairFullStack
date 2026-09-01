@@ -39,3 +39,7 @@ interface NoteType {
     status: "Completed" | "Working" | "Pending"
     createdAt: string
 }
+interface UsersIdType{
+    _id: string
+    username: string
+}

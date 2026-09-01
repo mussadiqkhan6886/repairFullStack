@@ -1,8 +1,8 @@
 import { fetchHelper } from "@/lib/helpers/fetchHelper"
 
 export const getAllNotes = async () : Promise<NoteType[]> => {
-    const result = await fetchHelper<{note: NoteType[]}>("notes")
-    return result.note
+    const result = await fetchHelper<{notes: NoteType[]}>("notes")
+    return result.notes
 }
 
 
@@ -22,7 +22,7 @@ export const updateNote = async (data: updateNoteData) : Promise<NoteType> => {
     return result.note
 }
 
-export const createNote = async (data: Omit<NoteType, "_id" | "createdAt">) : Promise<NoteType> => {
+export const createNote = async (data: Omit<NoteType, "_id" | "createdAt" | "status">) : Promise<NoteType> => {
     const result = await fetchHelper<{note: NoteType}>("notes", {
         method: "POST",
         headers: {"Content-Type": "application/json"},

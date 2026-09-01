@@ -1,3 +1,5 @@
+import DeleteNote from "@/components/DeleteNote";
+import { requiredRole } from "@/lib/helpers/authPage";
 import { formatDate } from "@/lib/helpers/formatDate";
 import { getAllNotes } from "@/server/note";
 import Link from "next/link";
@@ -6,6 +8,8 @@ import React from "react";
 const Page = async () => {
   
   const notes : NoteType[] = await getAllNotes()
+
+  const me =  await requiredRole(["Employee", "Admin", "Manager"])
   
   return (
     <main className="min-h-screen bg-gray-100 p-6">
@@ -22,9 +26,9 @@ const Page = async () => {
             </p>
           </div>
 
-          <button className="rounded-lg bg-black px-5 py-3 font-medium text-white hover:bg-gray-800">
+          <Link href="add-note" className="rounded-lg bg-black px-5 py-3 font-medium text-white hover:bg-gray-800">
             + Add Note
-          </button>
+          </Link>
         </div>
 
 
@@ -62,7 +66,7 @@ const Page = async () => {
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
 
-          {notes.map((note: NoteType) => (
+          {notes.length < 1 ? <h2>No Notes</h2> : notes.map((note: NoteType) => (
             <div
               key={note._id}
               className="rounded-2xl bg-white p-6 shadow-lg transition hover:-translate-y-1"
@@ -121,7 +125,7 @@ const Page = async () => {
                 <Link href={`notes/${note._id}`} className="rounded-lg bg-black px-4 py-2 text-sm text-white hover:bg-gray-800">
                   Edit
                 </Link>
-
+                {me.role !== "Employee" && <DeleteNote id={note._id} />}
               </div>
 
             </div>

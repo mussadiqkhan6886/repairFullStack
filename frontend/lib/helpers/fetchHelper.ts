@@ -10,6 +10,10 @@ export const fetchHelper = async <T>(path: string, options: RequestInit = {}): P
         headers: { Cookie: token, ...(options.headers || {}) },
     })
 
+    if(res.status === 204){
+        return undefined as T
+    }
+
     const result = await res.json()
     if (!res.ok) throw new Error(result.message)
     return result

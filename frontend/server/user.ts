@@ -1,7 +1,13 @@
 import { fetchHelper } from "@/lib/helpers/fetchHelper"
 
-export const getMe = async () : Promise<UserType> => {
-    const result = await fetchHelper<{user: UserType}>("users/me")
+interface me{
+    _id: string
+    username: string
+    role: string
+}
+
+export const getMe = async () : Promise<me> => {
+    const result = await fetchHelper<{user: me}>("users/me")
     return result.user
 }
 
@@ -42,3 +48,9 @@ export const createUser = async (data: Omit<UserType, "_id" | "createdAt">) : Pr
 export const deleteUser = async (id: string) : Promise<void> => {
     await fetchHelper<undefined>(`users/${id}`, {method: "DELETE"})
 }
+
+
+export const getUsersId = async () : Promise<UsersIdType[]> => {
+    const result = await fetchHelper<{usersId: UsersIdType[]}>("users/ids")
+    return result.usersId
+}   

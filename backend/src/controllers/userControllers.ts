@@ -151,6 +151,7 @@ export const deleteUser = async (req: Request, res: Response) : Promise<void> =>
         res.status(400).json({ success: false, message: 'User has assigned notes' })
         return
     }
+    
 
     const user = await User.findByIdAndDelete(id)
 
@@ -199,4 +200,10 @@ export const getCurrentUser = async (req: Request, res: Response) : Promise<void
     }
 
     res.status(200).json({success: true, user})
+}
+
+export const getUsersIds = async (req: Request, res: Response) : Promise<void> => {
+    const users = await User.find().select("id username").lean().exec()
+    
+    res.status(200).json({success: true, usersId: users})
 }

@@ -1,7 +1,8 @@
 'use client';
 
 import { createNote } from '@/server/note';
-import { useMutation } from '@tanstack/react-query';
+import { getUsersId } from '@/server/user';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { ChangeEvent, FormEvent, useState } from 'react';
 
@@ -15,12 +16,18 @@ const CreateNote = () => {
     },
   });
 
-  const [data, setData] = useState<Omit<NoteType, "_id" | "createdAt">>({
+  const UsersId = useQuery({
+    queryKey: ["usersId"],
+    queryFn: getUsersId,
+    staleTime: 5 * 60 * 1000
+  })
+
+
+  const [data, setData] = useState<Omit<NoteType, "_id" | "createdAt" | "status">>({
     noteFor: '',
     title: '',
     description: '',
     priority: 'Medium',
-    status: 'Pending',
   });
 
   const handleChange = (
@@ -43,6 +50,32 @@ const CreateNote = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label
+            htmlFor="noteFor"
+            className="mb-2 block text-sm font-medium text-gray-700"
+        >
+            Note For
+        </label>
+
+        <select
+            id="noteFor"
+            name="noteFor"
+            value={data.noteFor}
+            onChange={handleChange}
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
+        >
+            <option value="">
+            Select User
+            </option>
+
+            {UsersId.data?.map((item) => (
+            <option key={item._id} value={item._id}>
+                {item.username}
+            </option>
+            ))}
+        </select>
+        </div>
       <div>
         <label
           htmlFor="title"
@@ -99,27 +132,6 @@ const CreateNote = () => {
           <option value="Low">Low</option>
           <option value="Medium">Medium</option>
           <option value="High">High</option>
-        </select>
-      </div>
-
-      <div>
-        <label
-          htmlFor="status"
-          className="mb-2 block text-sm font-medium text-gray-700"
-        >
-          Status
-        </label>
-
-        <select
-          id="status"
-          name="status"
-          value={data.status}
-          onChange={handleChange}
-          className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-black"
-        >
-          <option value="Pending">Pending</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
         </select>
       </div>
 
