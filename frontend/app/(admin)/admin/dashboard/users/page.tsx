@@ -1,13 +1,15 @@
 import DeleteUser from "@/components/DeleteUser";
+import Search from "@/components/Search";
 import { requiredRole } from "@/lib/helpers/authPage";
 import { getAllUsers } from "@/server/user";
 import Link from "next/link";
 import React from "react";
 
-const Page = async () => {
+const Page = async ({searchParams}: {searchParams: Promise<{search?: string, status?: string}>}) => {
   const me = await requiredRole(["Manager", "Admin"])
   
-  const users : UserType[] = await getAllUsers()
+  const {search = "", status = ""} = await searchParams
+  const users : UserType[] = await getAllUsers(search, status)
   return (
     <main className="min-h-screen bg-gray-100 p-6">
       <div className="mx-auto max-w-6xl">
@@ -28,16 +30,10 @@ const Page = async () => {
         </div>
 
 
-        <div className="mb-5">
-          <input
-            type="text"
-            placeholder="Search users..."
-            className="w-full max-w-sm rounded-lg border border-gray-300 bg-white px-4 py-3 outline-none focus:border-black"
-          />
-        </div>
+        <Search />
 
 
-        <div className="overflow-hidden rounded-2xl bg-white shadow-lg">
+        {users.length < 1 ? <h2 className="text-2xl text-center font-semibold mt-4">No users found</h2> : <div className="overflow-hidden rounded-2xl bg-white shadow-lg">
 
           <table className="w-full">
 
@@ -125,7 +121,8 @@ const Page = async () => {
 
           </table>
 
-        </div>
+        </div>}
+        
 
       </div>
     </main>

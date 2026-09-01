@@ -142,6 +142,7 @@ const CreateUser = () => {
       <div className="flex justify-end gap-4 pt-4">
         <button
           type="button"
+          onClick={() => router.back()}
           className="rounded-lg border px-5 py-3 font-medium transition hover:bg-gray-100"
         >
           Cancel

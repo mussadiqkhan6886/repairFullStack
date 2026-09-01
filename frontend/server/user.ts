@@ -11,8 +11,8 @@ export const getMe = async () : Promise<me> => {
     return result.user
 }
 
-export const getAllUsers = async () : Promise<UserType[]> => {
-    const result = await fetchHelper<{users: UserType[]}>("users")
+export const getAllUsers = async (search: string, status: string) : Promise<UserType[]> => {
+    const result = await fetchHelper<{users: UserType[]}>(`users?search=${search}&status=${status}`)
     return result.users
 }
 
