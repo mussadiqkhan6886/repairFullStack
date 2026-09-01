@@ -6,7 +6,7 @@ import React from "react";
 const Page = async () => {
   
   const notes : NoteType[] = await getAllNotes()
-
+  
   return (
     <main className="min-h-screen bg-gray-100 p-6">
       <div className="mx-auto max-w-6xl">

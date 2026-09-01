@@ -18,16 +18,18 @@ export const getUser = async (id: string) : Promise<Required<UserType>> => {
 }
 
 export const updateUser = async (data: updateUserData) : Promise<UserType> => {
+    const {id, ...newData} = data
+    console.log(newData)
     const result = await fetchHelper<{user: UserType}>(`users/${data.id}`, {
         method: "PATCH",
         headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data)
+        body: JSON.stringify(newData)
     })
 
     return result.user
 }
 
-export const createUser = async (data: Required<UserType>) : Promise<UserType> => {
+export const createUser = async (data: Omit<UserType, "_id" | "createdAt">) : Promise<UserType> => {
     const result = await fetchHelper<{user: UserType}>("users", {
         method: "POST",
         headers: {"Content-Type": "application/json"},

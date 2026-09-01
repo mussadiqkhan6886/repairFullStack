@@ -22,7 +22,7 @@ const Page = async () => {
             </p>
           </div>
 
-          <Link href="/add-user" className="rounded-lg bg-black px-5 py-3 text-white transition hover:bg-gray-800">
+          <Link href="add-user" className="rounded-lg bg-black px-5 py-3 text-white transition hover:bg-gray-800">
             + Add User
           </Link>
         </div>

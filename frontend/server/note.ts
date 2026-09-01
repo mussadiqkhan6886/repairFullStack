@@ -22,7 +22,7 @@ export const updateNote = async (data: updateNoteData) : Promise<NoteType> => {
     return result.note
 }
 
-export const createNote = async (data: Required<NoteType>) : Promise<NoteType> => {
+export const createNote = async (data: Omit<NoteType, "_id" | "createdAt">) : Promise<NoteType> => {
     const result = await fetchHelper<{note: NoteType}>("notes", {
         method: "POST",
         headers: {"Content-Type": "application/json"},

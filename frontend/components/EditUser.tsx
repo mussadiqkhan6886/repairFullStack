@@ -1,6 +1,7 @@
 'use client';
 
 import { updateUser } from '@/server/user';
+import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 
@@ -20,6 +21,13 @@ const EditUser = ({ id, user }: Props) => {
         password: ""
     })
 
+    const updateMut = useMutation({
+        mutationFn: updateUser,
+        onSuccess(){
+            router.push("/admin/dashboard/users")
+        }
+    })
+
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
@@ -32,12 +40,13 @@ const EditUser = ({ id, user }: Props) => {
         e.preventDefault()
          const changedData = Object.fromEntries(
             Object.entries(data).filter(([key, value]) => {
+                if(key === "password" && value === "") {
+                    return false;
+                }
                 return value !== user[key as keyof UserType];
             })
         );
-
-        const res = await updateUser({id, ...changedData})
-        router.push("/admin/dashboard/users")
+        const res = updateMut.mutate({id, ...changedData})
     }
 
     return (
@@ -167,13 +176,14 @@ const EditUser = ({ id, user }: Props) => {
 
                     <button
                         type="submit"
+                        disabled={updateMut.isPending}
                         className="rounded-lg bg-black px-5 py-3 font-medium text-white hover:bg-gray-800"
                     >
-                        Save Changes
+                        {updateMut.isPending ? "Saving..." : "Save Changes"}
                     </button>
 
                 </div>
-
+            {updateMut.isError && <p>{updateMut.error.message}</p>}
             </form>
 
         </div>
